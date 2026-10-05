@@ -1,0 +1,1336 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookStore Premium</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+:root{
+    --primary:#6c63ff;
+    --secondary:#8b5cf6;
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --text:#202124;
+    --muted:#777;
+    --border:#e8e8ef;
+    --success:#16a34a;
+    --danger:#ef4444;
+    --shadow:0 15px 40px rgba(0,0,0,.08);
+}
+
+body.dark{
+    --bg:#111827;
+    --card:#1f2937;
+    --text:#f9fafb;
+    --muted:#aab0bb;
+    --border:#374151;
+    --shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    transition:.3s;
+}
+
+/* HEADER */
+header{
+    background:linear-gradient(135deg,#6c63ff,#8b5cf6);
+    color:white;
+    padding:25px 18px 45px;
+    border-radius:0 0 35px 35px;
+}
+
+.header-inner{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-icon{
+    width:48px;
+    height:48px;
+    background:rgba(255,255,255,.2);
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+}
+
+.logo h1{
+    font-size:23px;
+}
+
+.logo p{
+    font-size:12px;
+    opacity:.8;
+}
+
+.theme-btn{
+    border:0;
+    background:rgba(255,255,255,.18);
+    color:white;
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* MAIN */
+.container{
+    width:94%;
+    max-width:1100px;
+    margin:-25px auto 40px;
+}
+
+/* SEARCH */
+.search-box{
+    background:var(--card);
+    padding:15px;
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    display:flex;
+    gap:10px;
+    margin-bottom:25px;
+}
+
+.search-box input{
+    flex:1;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:var(--text);
+    font-size:15px;
+}
+
+.search-icon{
+    font-size:20px;
+}
+
+/* TITLE */
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.section-title h2{
+    font-size:21px;
+}
+
+.cart-count{
+    background:var(--primary);
+    color:white;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+}
+
+/* BOOK GRID */
+.books{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.book{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:12px;
+    box-shadow:var(--shadow);
+    transition:.3s;
+}
+
+.book:hover{
+    transform:translateY(-5px);
+}
+
+.cover{
+    height:180px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:55px;
+    margin-bottom:12px;
+    color:white;
+}
+
+.cover.one{
+    background:linear-gradient(135deg,#ff7b7b,#ff4d6d);
+}
+
+.cover.two{
+    background:linear-gradient(135deg,#36d1dc,#5b86e5);
+}
+
+.cover.three{
+    background:linear-gradient(135deg,#11998e,#38ef7d);
+}
+
+.cover.four{
+    background:linear-gradient(135deg,#f7971e,#ffd200);
+}
+
+.book h3{
+    font-size:16px;
+    margin-bottom:5px;
+}
+
+.book .author{
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:9px;
+}
+
+.price{
+    font-size:16px;
+    font-weight:bold;
+    color:var(--primary);
+    margin-bottom:10px;
+}
+
+.stock{
+    font-size:11px;
+    color:var(--muted);
+    margin-bottom:10px;
+}
+
+.add-btn{
+    width:100%;
+    border:0;
+    background:var(--primary);
+    color:white;
+    padding:11px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.add-btn:hover{
+    background:var(--secondary);
+}
+
+.add-btn:active{
+    transform:scale(.97);
+}
+
+/* CART */
+.cart{
+    margin-top:30px;
+    background:var(--card);
+    border-radius:22px;
+    padding:20px;
+    box-shadow:var(--shadow);
+}
+
+.cart-title{
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.empty{
+    text-align:center;
+    color:var(--muted);
+    padding:25px;
+}
+
+.cart-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:13px 0;
+    border-bottom:1px dashed var(--border);
+}
+
+.cart-cover{
+    width:55px;
+    height:65px;
+    border-radius:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:25px;
+    color:white;
+}
+
+.cart-info{
+    flex:1;
+}
+
+.cart-info h4{
+    font-size:14px;
+    margin-bottom:4px;
+}
+
+.cart-info p{
+    font-size:12px;
+    color:var(--muted);
+}
+
+.qty{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.qty button{
+    width:27px;
+    height:27px;
+    border:0;
+    border-radius:8px;
+    background:var(--bg);
+    color:var(--text);
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.qty span{
+    min-width:18px;
+    text-align:center;
+}
+
+/* SUMMARY */
+.summary{
+    margin-top:20px;
+    background:var(--bg);
+    border-radius:16px;
+    padding:15px;
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    padding:8px 0;
+    font-size:14px;
+}
+
+.row.discount{
+    color:var(--danger);
+}
+
+.total{
+    margin-top:10px;
+    background:linear-gradient(135deg,#6c63ff,#8b5cf6);
+    color:white;
+    padding:16px;
+    border-radius:14px;
+    display:flex;
+    justify-content:space-between;
+    font-size:18px;
+    font-weight:bold;
+}
+
+/* PAYMENT */
+.payment{
+    margin-top:20px;
+}
+
+.payment label{
+    display:block;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.payment input{
+    width:100%;
+    padding:13px;
+    border:2px solid var(--border);
+    border-radius:12px;
+    outline:none;
+    background:var(--card);
+    color:var(--text);
+}
+
+.payment input:focus{
+    border-color:var(--primary);
+}
+
+.pay-btn{
+    width:100%;
+    margin-top:12px;
+    border:0;
+    padding:14px;
+    border-radius:13px;
+    background:var(--success);
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.pay-btn:hover{
+    opacity:.9;
+}
+
+/* CHANGE */
+.change{
+    margin-top:15px;
+    padding:15px;
+    border-radius:14px;
+    background:#dcfce7;
+    color:#15803d;
+    text-align:center;
+    font-weight:bold;
+    display:none;
+}
+
+/* RECEIPT */
+.receipt{
+    margin-top:20px;
+    border:2px dashed var(--border);
+    padding:18px;
+    border-radius:15px;
+    display:none;
+}
+
+.receipt h3{
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.receipt-line{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    padding:6px 0;
+}
+
+.print-btn{
+    width:100%;
+    margin-top:15px;
+    padding:12px;
+    border:0;
+    border-radius:12px;
+    background:#111827;
+    color:white;
+    cursor:pointer;
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    padding:25px;
+}
+
+/* RESPONSIVE */
+@media(max-width:850px){
+    .books{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:500px){
+    header{
+        padding-bottom:40px;
+    }
+
+    .books{
+        grid-template-columns:repeat(2,1fr);
+        gap:10px;
+    }
+
+    .book{
+        padding:9px;
+        border-radius:16px;
+    }
+
+    .cover{
+        height:140px;
+        font-size:42px;
+    }
+
+    .book h3{
+        font-size:14px;
+    }
+
+    .price{
+        font-size:14px;
+    }
+
+    .add-btn{
+        font-size:12px;
+        padding:9px;
+    }
+
+    .cart-item{
+        gap:8px;
+    }
+
+    .cart-cover{
+        width:45px;
+        height:55px;
+    }
+}
+
+/* PRINT */
+@media print{
+    body *{
+        visibility:hidden;
+    }
+
+    .receipt,
+    .receipt *{
+        visibility:visible;
+    }
+
+    .receipt{
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        display:block !important;
+    }
+
+    .print-btn{
+        display:none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="header-inner">
+
+        <div class="logo">
+            <div class="logo-icon">📚</div>
+
+            <div>
+                <h1>BookStore</h1>
+                <p>Toko Buku Modern</p>
+            </div>
+        </div>
+
+        <button class="theme-btn" onclick="toggleTheme()">
+            🌙
+        </button>
+
+    </div>
+</header>
+
+
+<div class="container">
+
+    <!-- SEARCH -->
+    <div class="search-box">
+        <span class="search-icon">🔎</span>
+
+        <input
+            type="text"
+            id="search"
+            placeholder="Cari judul buku..."
+            onkeyup="searchBook()"
+        >
+    </div>
+
+
+    <!-- BOOK -->
+    <div class="section-title">
+
+        <h2>📚 Koleksi Buku</h2>
+
+        <div class="cart-count">
+            🛒 <span id="cartCount">0</span> item
+        </div>
+
+    </div>
+
+
+    <div class="books" id="bookList">
+
+        <!-- BOOK 1 -->
+        <div class="book"
+             data-name="Laskar Pelangi">
+
+            <div class="cover one">
+                📕
+            </div>
+
+            <h3>Laskar Pelangi</h3>
+
+            <p class="author">
+                Andrea Hirata
+            </p>
+
+            <div class="price">
+                Rp50.000
+            </div>
+
+            <div class="stock">
+                📦 Stok: <span id="stock1">10</span>
+            </div>
+
+            <button
+                class="add-btn"
+                onclick="addToCart(1)"
+            >
+                + Tambah
+            </button>
+
+        </div>
+
+
+        <!-- BOOK 2 -->
+        <div class="book"
+             data-name="Bumi">
+
+            <div class="cover two">
+                📘
+            </div>
+
+            <h3>Bumi</h3>
+
+            <p class="author">
+                Tere Liye
+            </p>
+
+            <div class="price">
+                Rp60.000
+            </div>
+
+            <div class="stock">
+                📦 Stok: <span id="stock2">8</span>
+            </div>
+
+            <button
+                class="add-btn"
+                onclick="addToCart(2)"
+            >
+                + Tambah
+            </button>
+
+        </div>
+
+
+        <!-- BOOK 3 -->
+        <div class="book"
+             data-name="Negeri 5 Menara">
+
+            <div class="cover three">
+                📗
+            </div>
+
+            <h3>Negeri 5 Menara</h3>
+
+            <p class="author">
+                Ahmad Fuadi
+            </p>
+
+            <div class="price">
+                Rp45.000
+            </div>
+
+            <div class="stock">
+                📦 Stok: <span id="stock3">15</span>
+            </div>
+
+            <button
+                class="add-btn"
+                onclick="addToCart(3)"
+            >
+                + Tambah
+            </button>
+
+        </div>
+
+
+        <!-- BOOK 4 -->
+        <div class="book"
+             data-name="Filosofi Teras">
+
+            <div class="cover four">
+                📙
+            </div>
+
+            <h3>Filosofi Teras</h3>
+
+            <p class="author">
+                Henry Manampiring
+            </p>
+
+            <div class="price">
+                Rp75.000
+            </div>
+
+            <div class="stock">
+                📦 Stok: <span id="stock4">5</span>
+            </div>
+
+            <button
+                class="add-btn"
+                onclick="addToCart(4)"
+            >
+                + Tambah
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- CART -->
+    <div class="cart">
+
+        <div class="cart-title">
+            🛒 Keranjang Belanja
+        </div>
+
+        <div id="cartItems">
+
+            <div class="empty">
+                🛍️ Keranjang masih kosong
+            </div>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+        <div class="summary">
+
+            <div class="row">
+                <span>Subtotal</span>
+                <strong id="subtotal">
+                    Rp0
+                </strong>
+            </div>
+
+            <div class="row discount">
+                <span>Diskon</span>
+                <strong id="discount">
+                    Rp0
+                </strong>
+            </div>
+
+            <div class="row">
+                <span>Persentase Diskon</span>
+                <strong id="discountPercent">
+                    0%
+                </strong>
+            </div>
+
+            <div class="total">
+                <span>Total</span>
+
+                <span id="total">
+                    Rp0
+                </span>
+            </div>
+
+        </div>
+
+
+        <!-- PAYMENT -->
+        <div class="payment">
+
+            <label>
+                💰 Uang Pembayaran
+            </label>
+
+            <input
+                type="number"
+                id="payment"
+                placeholder="Masukkan jumlah uang"
+            >
+
+            <button
+                class="pay-btn"
+                onclick="processPayment()"
+            >
+                💳 Bayar Sekarang
+            </button>
+
+        </div>
+
+
+        <!-- CHANGE -->
+        <div class="change" id="change">
+        </div>
+
+
+        <!-- RECEIPT -->
+        <div class="receipt" id="receipt">
+
+            <h3>🧾 STRUK PEMBELIAN</h3>
+
+            <div id="receiptContent"></div>
+
+            <button
+                class="print-btn"
+                onclick="window.print()"
+            >
+                🖨️ Cetak Struk
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<footer>
+    © 2026 BookStore • Sistem Penjualan Buku
+</footer>
+
+
+<script>
+
+/* =========================
+   DATA BUKU
+========================= */
+
+const books = {
+
+    1:{
+        name:"Laskar Pelangi",
+        price:50000,
+        stock:10,
+        icon:"📕",
+        class:"one"
+    },
+
+    2:{
+        name:"Bumi",
+        price:60000,
+        stock:8,
+        icon:"📘",
+        class:"two"
+    },
+
+    3:{
+        name:"Negeri 5 Menara",
+        price:45000,
+        stock:15,
+        icon:"📗",
+        class:"three"
+    },
+
+    4:{
+        name:"Filosofi Teras",
+        price:75000,
+        stock:5,
+        icon:"📙",
+        class:"four"
+    }
+
+};
+
+
+/* =========================
+   KERANJANG
+========================= */
+
+let cart = {};
+
+
+/* =========================
+   FORMAT RUPIAH
+========================= */
+
+function rupiah(number){
+
+    return "Rp" + number.toLocaleString("id-ID");
+
+}
+
+
+/* =========================
+   TAMBAH KE KERANJANG
+========================= */
+
+function addToCart(id){
+
+    if(!cart[id]){
+
+        cart[id] = 1;
+
+    }else{
+
+        if(cart[id] < books[id].stock){
+
+            cart[id]++;
+
+        }else{
+
+            alert("❌ Stok buku tidak mencukupi!");
+
+            return;
+
+        }
+
+    }
+
+    renderCart();
+
+}
+
+
+/* =========================
+   UBAH JUMLAH
+========================= */
+
+function changeQty(id, change){
+
+    if(!cart[id]) return;
+
+    cart[id] += change;
+
+
+    if(cart[id] <= 0){
+
+        delete cart[id];
+
+    }
+
+
+    if(cart[id] > books[id].stock){
+
+        cart[id] = books[id].stock;
+
+        alert("❌ Jumlah melebihi stok!");
+
+    }
+
+
+    renderCart();
+
+}
+
+
+/* =========================
+   HITUNG DISKON
+========================= */
+
+function getDiscount(totalQty){
+
+    if(totalQty >= 10){
+
+        return 20;
+
+    }
+
+    if(totalQty >= 5){
+
+        return 10;
+
+    }
+
+    if(totalQty >= 3){
+
+        return 5;
+
+    }
+
+    return 0;
+
+}
+
+
+/* =========================
+   TAMPILKAN KERANJANG
+========================= */
+
+function renderCart(){
+
+    const container =
+        document.getElementById("cartItems");
+
+    let html = "";
+
+    let totalQty = 0;
+
+    let subtotal = 0;
+
+
+    for(let id in cart){
+
+        const book = books[id];
+
+        const qty = cart[id];
+
+        totalQty += qty;
+
+        subtotal += book.price * qty;
+
+
+        html += `
+
+        <div class="cart-item">
+
+            <div class="cart-cover ${book.class}">
+                ${book.icon}
+            </div>
+
+            <div class="cart-info">
+
+                <h4>
+                    ${book.name}
+                </h4>
+
+                <p>
+                    ${rupiah(book.price)}
+                </p>
+
+            </div>
+
+            <div class="qty">
+
+                <button
+                    onclick="changeQty(${id},-1)"
+                >
+                    −
+                </button>
+
+                <span>
+                    ${qty}
+                </span>
+
+                <button
+                    onclick="changeQty(${id},1)"
+                >
+                    +
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+
+    }
+
+
+    if(html === ""){
+
+        html = `
+            <div class="empty">
+                🛍️ Keranjang masih kosong
+            </div>
+        `;
+
+    }
+
+
+    container.innerHTML = html;
+
+
+    /* DISKON */
+
+    const discountPercent =
+        getDiscount(totalQty);
+
+    const discount =
+        subtotal * discountPercent / 100;
+
+    const total =
+        subtotal - discount;
+
+
+    document.getElementById("cartCount")
+        .textContent = totalQty;
+
+    document.getElementById("subtotal")
+        .textContent = rupiah(subtotal);
+
+    document.getElementById("discount")
+        .textContent = "-" + rupiah(discount);
+
+    document.getElementById("discountPercent")
+        .textContent = discountPercent + "%";
+
+    document.getElementById("total")
+        .textContent = rupiah(total);
+
+
+    /* UPDATE STOK */
+
+    for(let id in books){
+
+        let used = cart[id] || 0;
+
+        let remaining =
+            books[id].stock - used;
+
+        const stockElement =
+            document.getElementById("stock" + id);
+
+        if(stockElement){
+
+            stockElement.textContent =
+                remaining;
+
+        }
+
+    }
+
+}
+
+
+/* =========================
+   PEMBAYARAN
+========================= */
+
+function processPayment(){
+
+    let totalQty = 0;
+
+    let subtotal = 0;
+
+
+    for(let id in cart){
+
+        totalQty += cart[id];
+
+        subtotal +=
+            books[id].price * cart[id];
+
+    }
+
+
+    if(totalQty === 0){
+
+        alert("🛒 Keranjang masih kosong!");
+
+        return;
+
+    }
+
+
+    const discountPercent =
+        getDiscount(totalQty);
+
+    const discount =
+        subtotal * discountPercent / 100;
+
+    const total =
+        subtotal - discount;
+
+
+    const payment =
+        Number(
+            document.getElementById("payment").value
+        );
+
+
+    if(!payment){
+
+        alert("💰 Masukkan uang pembayaran!");
+
+        return;
+
+    }
+
+
+    if(payment < total){
+
+        alert(
+            "❌ Uang tidak cukup!\n\n" +
+            "Total: " + rupiah(total)
+        );
+
+        return;
+
+    }
+
+
+    const change =
+        payment - total;
+
+
+    /* TAMPILKAN KEMBALIAN */
+
+    const changeBox =
+        document.getElementById("change");
+
+    changeBox.style.display = "block";
+
+    changeBox.innerHTML = `
+        💵 Kembalian<br>
+        <span style="font-size:22px">
+            ${rupiah(change)}
+        </span>
+    `;
+
+
+    /* BUAT STRUK */
+
+    let receipt = "";
+
+
+    for(let id in cart){
+
+        receipt += `
+
+        <div class="receipt-line">
+
+            <span>
+                ${books[id].name}
+                × ${cart[id]}
+            </span>
+
+            <strong>
+                ${rupiah(
+                    books[id].price * cart[id]
+                )}
+            </strong>
+
+        </div>
+
+        `;
+
+    }
+
+
+    receipt += `
+
+        <hr>
+
+        <div class="receipt-line">
+            <span>Subtotal</span>
+            <strong>${rupiah(subtotal)}</strong>
+        </div>
+
+        <div class="receipt-line">
+            <span>Diskon (${discountPercent}%)</span>
+            <strong>-${rupiah(discount)}</strong>
+        </div>
+
+        <div class="receipt-line">
+            <span>Total</span>
+            <strong>${rupiah(total)}</strong>
+        </div>
+
+        <div class="receipt-line">
+            <span>Bayar</span>
+            <strong>${rupiah(payment)}</strong>
+        </div>
+
+        <div class="receipt-line">
+            <span>Kembalian</span>
+            <strong>${rupiah(change)}</strong>
+        </div>
+
+        <br>
+
+        <div style="
+            text-align:center;
+            color:#16a34a;
+            font-weight:bold;
+        ">
+            ✅ TRANSAKSI BERHASIL
+        </div>
+
+    `;
+
+
+    document.getElementById("receiptContent")
+        .innerHTML = receipt;
+
+    document.getElementById("receipt")
+        .style.display = "block";
+
+}
+
+
+/* =========================
+   SEARCH BUKU
+========================= */
+
+function searchBook(){
+
+    const keyword =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+
+    const bookElements =
+        document.querySelectorAll(".book");
+
+
+    bookElements.forEach(book => {
+
+        const name =
+            book.dataset.name.toLowerCase();
+
+
+        if(name.includes(keyword)){
+
+            book.style.display = "block";
+
+        }else{
+
+            book.style.display = "none";
+
+        }
+
+    });
+
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark");
+
+    const button =
+        document.querySelector(".theme-btn");
+
+
+    if(document.body.classList.contains("dark")){
+
+        button.textContent = "☀️";
+
+    }else{
+
+        button.textContent = "🌙";
+
+    }
+
+}
+
+
+/* =========================
+   JALANKAN AWAL
+========================= */
+
+renderCart();
+
+</script>
+
+</body>
+</html>
